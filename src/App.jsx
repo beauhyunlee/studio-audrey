@@ -22,24 +22,11 @@ const projects = [
   },
 ];
 
-const skills = [
-  "React",
-  "Python",
-  "Java",
-  "C++",
-  "SQL",
-  "AI",
-  "Data",
-  "Robotics",
-  "Creative Tech",
-  "Fashion Tech",
-];
-
 export default function StudioAudreyPortfolio() {
-  const [showHidden, setShowHidden] = useState(false);
+ 
   const lightColor = "#c99102";
   const [brightness, setBrightness] = useState(55);
-  const [controlsOpen, setControlsOpen] = useState(false);
+  
   // move light
   const [lightX, setLightX] = useState(36);
   const [lightY, setLightY] = useState(54);
@@ -175,14 +162,15 @@ export default function StudioAudreyPortfolio() {
             </h1>
           </div>
         </div>
-        <div className="z-40 relative left-14 top-[70%]">
+        <div className="absolute left-14 bottom-24 z-40">>
           <p className="max-w-xl text-[11px] font-bold uppercase tracking-[0.45em] leading-loose text-[#c99102] drop-shadow-[0_0_14px_rgba(246,211,101,0.9)]">
             Full Stack Engineer
           </p>
-        </div>
+        </>
 
         {/* Spacing */}
         <div className="h-16" />
+      </section>
 
 
         {/* 2. INTRODUCTION SECTION */}
@@ -218,9 +206,8 @@ export default function StudioAudreyPortfolio() {
             </motion.div>
           </div>
         </section>
-      </section>
 
-      
+
       {/* 3. ENTERING ARCHIVE SPACING   */}
       <section className="relative flex h-[120vh] items-center justify-center overflow-hidden">
         {/* ambient red glow */}
@@ -244,6 +231,8 @@ export default function StudioAudreyPortfolio() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black via-transparent to-[#220000]" />
       </section>
 
+    
+      {/* 4. PROJECT LOOKBOOK */}
       <section id="showcase" className="px-6 md:px-14 py-24">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
@@ -284,7 +273,8 @@ export default function StudioAudreyPortfolio() {
             </article>
           ))}
         </div>
-        {/* vertical date rail */}
+
+        {/* 5. VERTICAL DATE RAIL*/}
         <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[10000] hidden md:flex flex-col items-center gap-6">
           {/* vertical line */}
           <div className="h-40 w-px bg-white/20" />
@@ -316,37 +306,6 @@ export default function StudioAudreyPortfolio() {
 
           {/* bottom line */}
           <div className="h-40 w-px bg-white/20" />
-        </div>
-      </section>
-
-      <section
-        id="lab"
-        className="px-6 md:px-14 py-24 bg-[#171717] text-[#f7f3ee]"
-      >
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-white/50 mb-3">
-              The Lab
-            </p>
-            <h2 className="text-5xl md:text-7xl font-serif leading-none">
-              Ideas I Want to Build
-            </h2>
-          </div>
-          <div className="space-y-4 text-xl md:text-2xl font-serif">
-            <p className="border-b border-white/20 pb-4">
-              AI outfit recommender
-            </p>
-            <p className="border-b border-white/20 pb-4">Virtual closet app</p>
-            <p className="border-b border-white/20 pb-4">
-              Fashion trend visualization dashboard
-            </p>
-            <p className="border-b border-white/20 pb-4">
-              Creator storefront analytics tool
-            </p>
-            <p className="border-b border-white/20 pb-4">
-              Creative robotics and hardware experiments
-            </p>
-          </div>
         </div>
       </section>
 
