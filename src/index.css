@@ -1,4 +1,40 @@
+@font-face {
+  font-family: "BodoniFLF";
+  src: url("./assets/fonts/BodoniflfBold-MVZx.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "fatwandals";
+  src: url("./assets/fonts/FatWandalsPersonalUse-9Vj7.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "fatwandals";
+  src: url("./assets/fonts/FatWandalsPersonalUse-9Vj7.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 @import "tailwindcss";
+
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* old Edge */
+}
+html {
+  scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
 
 html {
   scroll-behavior: smooth;
@@ -6,4 +42,12 @@ html {
 
 body {
   margin: 0;
+}
+
+/* font classes */
+.bodoni {
+  font-family: "BodoniFLF", serif;
+}
+.fatwandals {
+  font-family: "FatWandals", serif;
 }
