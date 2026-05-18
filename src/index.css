@@ -1,3 +1,5 @@
+
+/* FONT IMPORTS */
 @font-face {
   font-family: "BodoniFLF";
   src: url("./assets/fonts/BodoniflfBold-MVZx.ttf") format("truetype");
@@ -6,22 +8,55 @@
 }
 
 @font-face {
-  font-family: "fatwandals";
+  font-family: "FatWandals";
   src: url("./assets/fonts/FatWandalsPersonalUse-9Vj7.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "fatwandals";
-  src: url("./assets/fonts/FatWandalsPersonalUse-9Vj7.ttf") format("truetype");
+  font-family: "Cinq";
+  src: url("./assets/fonts/Cinq-8OW30.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Wilkers";
+  src: url("./assets/fonts/Wilker-drVwl.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Soffie";
+  src: url("./assets/fonts/SoffieRegular-ovOLV.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Miland";
+  src: url("./assets/fonts/Miland-2vY2W.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Merich";
+  src: url("./assets/fonts/Merich-YqW6q.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gefika";
+  src: url("./assets/fonts/Gefika-rvpBx.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 
-@import "tailwindcss";
 
+
+/* GLOBAL SETTINGS */
+
+@import "tailwindcss";
 html,
 body {
   scrollbar-width: none; /* Firefox */
@@ -30,24 +65,36 @@ body {
 html {
   scroll-behavior: smooth;
 }
-
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
-
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
 }
 
-/* font classes */
+/* FONT UTILITY CLASSES */
 .bodoni {
   font-family: "BodoniFLF", serif;
 }
 .fatwandals {
   font-family: "FatWandals", serif;
+}
+.cinq {
+  font-family: "Cinq", serif;
+}
+.wilkers{
+  font-family: "Wilkers", serif;
+}
+.soffie{
+  font-family: "Soffie", serif;
+}
+.miland{
+  font-family: "Miland", serif;
+}
+.merich{
+  font-family: "Merich", serif;
+}
+.gefika{
+  font-family: "Gefika", serif;
 }
