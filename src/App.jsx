@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { NavLink, Routes, Route } from "react-router-dom";
+
 import Resume from "./pages/Resume";
 
 const projects = [
@@ -23,10 +24,9 @@ const projects = [
     desc: "Built and optimized data workflows supporting machine learning product functionality while collaborating with product and design teams on user-centered AI features.",
   },
 ];
-
+// text-[#c99102]/70
 export default function StudioAudreyPortfolio() {
   function Home() {
-    const lightColor = "#c99102";
     const [brightness, setBrightness] = useState(80);
 
     // move light
@@ -44,37 +44,23 @@ export default function StudioAudreyPortfolio() {
       return () => clearInterval(interval);
     }, []);
 
-    // Guided Tour
-    const startGuidedTour = () => {
-      const sections = ["showcase", "lab", "contact"];
-      let index = 0;
+    // for intro section
+    const [expanded, setExpanded] = useState(false);
 
-      const scrollNext = () => {
-        const section = document.getElementById(sections[index]);
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setExpanded(true);
+      }, 1000);
 
-        if (section) {
-          section.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-
-        index++;
-
-        if (index < sections.length) {
-          setTimeout(scrollNext, 5200);
-        }
-      };
-
-      scrollNext();
-    };
+      return () => clearTimeout(timer);
+    }, []);
 
     const { scrollYProgress } = useScroll();
 
     const pageBackground = useTransform(
       scrollYProgress,
       [0, 0.25],
-      ["#000000", "#3b0000"],
+      ["#000000", "#000000"],
     );
 
     return (
@@ -89,295 +75,307 @@ export default function StudioAudreyPortfolio() {
           setLightY(y);
         }}
       >
-        {/* 1. LANDING PAGE */}
-        
-        <section className="relative min-h-screen overflow-hidden bg-black text-white px-6 py-8 md:px-14 flex flex-col justify-between">
-          <div className="hero-glow" />
-          
-          {/* grain */}
-          <div className="grain-overlay pointer-events-none absolute inset-0 z-30" />
+        {/* LANDING PAGE */}
+        <section className="relative min-h-screen overflow-hidden bg-black px-6 py-8 text-white md:px-14">
+          <div />
 
-          <div
-            className="absolute h-[34rem] w-[34rem] rounded-full blur-[100px] mix-blend-screen transition-all duration-[1400ms] ease-out"
-            style={{
-              left: `${lightX}%`,
-              top: `${lightY}%`,
-              transform: "translate(-50%, -50%)",
-              background: `radial-gradient(circle at 50% 50%, ${lightColor}22, transparent 20%)`,
-              opacity: brightness / 120,
-            }}
-          />
+          {/* glass half panel */}
+          <div className="absolute left-0 top-0 z-10 h-full w-1/2  bg-[blue]/20" />
 
-          <div
-            className="absolute h-[26rem] w-[26rem] rounded-full blur-[100px] mix-blend-screen transition-all duration-[1400ms] ease-out"
-            style={{
-              left: `${lightX * 0.8 - 10}%`,
-              top: `${lightY * 0.85 + 10}%`,
-              transform: "translate(-50%, -50%)",
-              background: `radial-gradient(circle, ${lightColor}66, transparent 70%)`,
-              opacity: brightness / 200,
-            }}
-          />
+          {/* soft blurry edge */}
+          <div className="absolute left-[48%] top-0 z-20 h-full w-40" />
 
-          {/* a. NAV BAR */}
+          {/* nav */}
+          <nav className="absolute left-0 top-0 z-50 w-full px-6 py-8 md:px-14">
+            <div className="flex items-center justify-between border-b border-white/15 pb-4">
+              <p className="flip-name">
+                {names[nameIndex].split("").map((char, index) => (
+                  <span
+                    key={`${char}-${index}-${nameIndex}`}
+                    className="flip-char"
+                    style={{ animationDelay: `${index * 300}ms` }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </span>
+                ))}
+              </p>
 
-          <nav className="relative z-40 flex items-center justify-between border-b border-white/15 pb-4">
-            <p className="flip-name">
-              {names[nameIndex].split("").map((char, index) => (
-                <span
-                  key={`${char}-${index}-${nameIndex}`}
-                  className="flip-char"
-                  style={{ animationDelay: `${index * 300}ms` }}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </span>
-              ))}
-            </p>
+              <div className="flex items-center gap-8">
+                {[
+                  { label: "Resume", path: "/resume" },
+                  { label: "Projects", path: "/projects" },
+                  { label: "Experience", path: "/experience" },
+                  { label: "Contact", path: "/contact" },
+                ].map((item) => (
+                  <NavLink
+                    key={item.label}
+                    to={item.path}
+                    className="bebas-neue-regular group relative flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.38em] text-[blue]/90 transition-all duration-300 hover:text-white hover:tracking-[0.45em]"
+                  >
+                    <span className="-translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                      ▶
+                    </span>
+                    <span>{item.label}</span>
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           </nav>
 
-          {/* b. LANDING PAGE TEXT */}
-
-          <div className="relative z-10 grid md:grid-cols-[1.15fr_0.85fr] gap-10 items-end py-20">
-            <div>
-              <h1 className="gefika text-red-900 text-[20vw] leading-[0.9]">
-                Beau Hyun Lee
+          {/* main content */}
+          <div className="relative z-40 grid min-h-screen grid-cols-1 md:grid-cols-2">
+            {/* left side */}
+            <div className="flex items-center justify-center px-6 pt-32 pb-20 md:px-14">
+              <h1 className=" text-left text-5xl leading-[0.88] font-bold  text-white md:text-5xl lg:text-6xl">
+                BEAU HYUN LEE
               </h1>
             </div>
-          </div>
-          <nav className="absolute left-0 top-0 z-50 w-full px-14 py-8">
-            <div className="flex items-center justify-end gap-10">
-              {[
-                { label: "Resume", path: "/resume" },
-                { label: "Projects", path: "/projects" },
-                { label: "Experience", path: "/experience" },
-                { label: "Contact", path: "/contact" },
-              ].map((item) => (
-                <NavLink
-                  key={item.label}
-                  to={item.path}
-                  className="
-          group relative flex items-center gap-2
-          text-[10px] font-bold uppercase tracking-[0.38em]
-          text-[#c99102]
-          drop-shadow-[0_0_14px_rgba(246,211,101,0.75)]
-          transition-all duration-300
-          hover:text-white/85
-          hover:tracking-[0.45em]
-        "
-                >
-                  <span
-                    className="
-            opacity-0 -translate-x-2
-            transition-all duration-300
-            group-hover:opacity-100
-            group-hover:translate-x-0
-          "
-                  >
-                    ▶
-                  </span>
 
-                  <span>{item.label}</span>
-                </NavLink>
-              ))}
-            </div>
-          </nav>
-
-          {/* Spacing */}
-          <div className="h-16" />
-        </section>
-        
-        
-      
-        {/* 2. INTRODUCTION SECTION */}
-        <section className="relative flex min-h-screen flex-col md:flex-row items-center justify-center gap-16 md:gap-28 overflow-hidden px-8 md:px-20">
-          {/* subtle vignette */}
-          <div className="absolute inset-0 " />
-          <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-7xl gap-20">
-            {/* a. TEXT CONTENT */}
-            <div className="relative z-40 text-left">
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-                className="relative z-10 text-left"
-              >
-                {/* typing hello */}
-                <h1 className="ui-text leading-loose typing-text mb-6 text-5xl md:text-8xl font-light tracking-tight text-[#7a0000]">
-                  hello.
-                </h1>
-
-                {/* typing subtitle */}
-                <p className="ui-text typing-sub leading-loose text-lg md:text-2xl tracking-[0.18em] text-red-200/60">
-                  My name is Audrey Lee.
-                </p>
-                <div className="h-5" />
-                <p className="ui-text typing-sub leading-loose text-lg md:text-2xl tracking-[0.18em] text-red-200/60">
-                  Bachelor of Science, Computer Science
-                </p>
-                <p className="ui-text typing-sub leading-loose text-lg md:text-2xl tracking-[0.18em] text-red-200/60">
-                  Rutgers University, The State University of New Jersey
-                </p>
-                <p className="ui-text typing-sub leading-loose text-lg md:text-2xl tracking-[0.18em] text-red-200/60">
-                  Based: New York Metropolitan Area
-                </p>
-                <p className="ui-text typing-sub leading-loose text-lg md:text-2xl tracking-[0.18em] text-red-200/60">
-                  Software Engineer
-                </p>
-
-                <button
-                  onClick={() =>
-                    document
-                      .getElementById("projects")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
-                  className="ui-text view-projects-link"
-                >
-                  <p className="ui-text typing-sub leading-loose text-lg md:text-2xl tracking-[0.18em] text-">
-                    [View Work]
-                  </p>
-                </button>
-              </motion.div>
-            </div>
-
-            {/* b. EYES FOLLOW MOUSE */}
-            {/* RIGHT EYES */}
-            <div className="relative z-40 flex gap-[clamp(1rem,3vw,2rem)] shrink-0">
-              {[0, 1].map((eye) => {
-                const pupilX = (lightX - 50) / 8;
-                const pupilY = (lightY - 50) / 8;
-
-                return (
-                  <div
-                    key={eye}
-                    className="
-          relative rounded-full
-          bg-white/90
-          border border-white/40
-        "
-                    style={{
-                      width: "clamp(4.5rem, 12vw, 9rem)",
-                      height: "clamp(4.5rem, 12vw, 9rem)",
-                    }}
-                  >
-                    <div
-                      className="
-            absolute left-1/2 top-1/2 rounded-full
-            bg-black
-            transition-transform duration-100
-          "
-                      style={{
-                        width: "clamp(2.4rem, 6vw, 5rem)",
-                        height: "clamp(2.4rem, 6vw, 5rem)",
-                        transform: `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px))`,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* 3. ENTERING ARCHIVE SPACING   */}
-        <section className="relative flex h-[120vh] items-center justify-center overflow-hidden">
-          {/* ambient red glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,0,0,0.25),transparent_65%)]" />
-
-          {/* center line */}
-          <div className="absolute h-[300px] w-px bg-gradient-to-b from-transparent via-red-900/60 to-transparent" />
-
-          {/* text */}
-          <div className="relative z-10 text-center">
-            <p className="mb-6 text-[10px] uppercase tracking-[0.6em] text-white/30">
-              Entering Archive
-            </p>
-
-            <h2 className="fatwandals text-6xl md:text-8xl text-red-900/70">
-              Selected Work
-            </h2>
-          </div>
-
-          {/* vignette */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black via-transparent to-[#220000]" />
-        </section>
-
-        {/* 4. PROJECT LOOKBOOK */}
-        <section id="showcase" className="px-6 md:px-14 py-24">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-black/50 mb-3">
-                Selected Work
-              </p>
-              <h2 className="text-5xl md:text-7xl font-light">
-                Project Lookbook
+            {/* right side */}
+            <div className="flex items-center justify-center px-6 pt-32 pb-20 md:px-14">
+              <h2 className="text-center font-serif text-xl font-light uppercase tracking-[0.25em] text-white/70 md:text-2xl">
+                portfolio
               </h2>
             </div>
-            <p className="max-w-md text-black/65">
-              A mix of full-stack engineering, data visualization, AI workflows,
-              and systems thinking.
-            </p>
           </div>
+        </section>
+        {/* Spacing */}
+        <div className="h-16" />
+        {/* 2. INTRODUCTION SECTION */}
+        <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-8 md:px-20">
+          <p className="absolute top-10 right-10 text-7xl font-bold text-[blue]/30">
+            01
+          </p>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {projects.map((project, index) => (
-              <article
-                key={project.title}
-                className="group min-h-[430px] rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 flex flex-col justify-between  hover:bg-[#3b0000]/60 hover:border-red-900/40 hover:text-white hover:shadow-[0_0_40px_rgba(120,0,0,0.35)] transition-all duration-[1400ms] ease-out"
+          <div className="flex w-full max-w-7xl items-center justify-between gap-20">
+            <div
+              className={`
+    flex w-full max-w-7xl items-center justify-center
+    transition-all duration-[2000ms]
+    ease-[cubic-bezier(0.22,1,0.36,1)]
+    ${expanded ? "gap-20 md:gap-40" : "gap-0"}
+  `}
+            >
+              {/* LEFT TEXT */}
+              <div
+                className={`
+      relative z-40 text-left
+      transition-all duration-[2000ms]
+      ${expanded ? "-translate-x-0 opacity-100" : "translate-x-10"}
+    `}
               >
-                <div>
-                  <p className="text-sm uppercase tracking-[0.25em] opacity-60 mb-6">
-                    Look 0{index + 1}
-                  </p>
-                  <h3 className="text-3xl font-serif leading-tight mb-3">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm uppercase tracking-[0.18em] opacity-70 mb-6">
-                    {project.type}
-                  </p>
-                  <p className="leading-relaxed opacity-80">{project.desc}</p>
-                </div>
-                <p className="mt-10 text-sm uppercase tracking-[0.18em] opacity-70">
-                  {project.stack}
+                <p
+                  className="font-bold text-8xl uppercase text-white/90"
+                  style={{
+                    writingMode: "vertical-rl",
+                    textOrientation: "mixed",
+                  }}
+                >
+                  hello
                 </p>
-              </article>
-            ))}
+              </div>
+
+              {/* RIGHT INFO */}
+              <div
+                className={`
+      space-y-5
+      transition-all duration-[2000ms]
+      ${expanded ? "translate-x-0 opacity-100" : "-translate-x-1 opacity-0"}
+    `}
+              >
+                <div className="space-y-12">
+                  {/* MAIN */}
+                  <div className="space-y-5">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-white/70">
+                      Beau Hyun Lee
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      Based in New York Metropolitan
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      Software Engineer
+                    </p>
+                  </div>
+
+                  {/* EDUCATION */}
+                  <div className="space-y-3">
+                    <p className="text-[9px] uppercase tracking-[0.5em] text-white/25">
+                      Education
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      Rutgers University 2023-2026
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      B.S. Computer Science
+                    </p>
+                  </div>
+
+                  {/* TECHNICAL */}
+                  <div className="space-y-3">
+                    <p className="text-[9px] uppercase tracking-[0.5em] text-white/25">
+                      Technical
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      Python, C++, Typescript, Javascript, Node.js, React.js
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      Figma, Unity, Blender, Git, Adobe Suite, Microsoft Suite
+                    </p>
+                  </div>
+
+                  {/* STATUS */}
+                  <div className="space-y-3">
+                    <p className="text-[9px] uppercase tracking-[0.5em] text-white/25">
+                      Status
+                    </p>
+
+                    <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">
+                      Seeking 2026 SWE opportunities
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* RIGHT IMAGE */}
+
+            <div className="overflow-hidden border border-white/40 relative z-40 flex items-center justify-center">
+              <img
+                src="./profile-sticker.png"
+                alt="Audrey Lee"
+                className="h-[400px] w-[320px] object-cover object-top grayscale"
+              />
+            </div>
           </div>
+        </section>
+        {/* Spacing */}
+        <div className="h-16" />
+        {/* 3. PROJECT GALLERY */}={/* 3. PROJECT GALLERY */}
+        <section
+          id="showcase"
+          className="bg-black px-6 py-24 text-white md:px-14"
+        >
+          <section id="projects" className="min-h-screen">
+            <div className="mx-auto max-w-7xl">
+              {/* HEADER */}
+              <div className="mb-16 flex items-end justify-between">
+                <div>
+
+                  <h2 className="text-5xl uppercase font-bold tracking-[-0.06em] md:text-7xl">
+                    Projects
+                  </h2>
+                </div>
+              </div>
+
+              {/* GALLERY */}
+              <div className="flex flex-col gap-4 md:flex-row">
+                {[
+                  {
+                    title: "Personal Website",
+                    desc: "Interactive portfolio experience built with React, Vite, and Tailwind CSS featuring cinematic transitions, dynamic lighting systems, and immersive UI interactions.",
+                    img: "/website.jpg",
+                  },
+                  {
+                    title: "Fluid Simulation",
+                    desc: "Real-time particle-based fluid simulation developed in Unity using physics systems, collision handling, and custom shader rendering.",
+                    img: "/fluid.jpg",
+                  },
+                  {
+                    title: "CompBot",
+                    desc: "Modular robotics simulation system in C++ featuring real-time movement, multithreaded update loops, and physics-based interactions.",
+                    img: "/robotics.jpg",
+                  },
+                  {
+                    title: "Railway Reservation System",
+                    desc: "Full-stack reservation platform with secure authentication, relational database management, and multi-role booking workflows.",
+                    img: "/train.jpg",
+                  },
+                  {
+                    title: "Earthquake Visualization",
+                    desc: "Data visualization platform integrating the USGS API with Kibana dashboards for real-time seismic activity exploration.",
+                    img: "/earthquake.jpg",
+                  },
+                ].map((project, index) => (
+                  <article
+                    key={index}
+                    className="
+  group/card relative h-[480px] flex-1 overflow-hidden 
+  border 
+  transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+  md:hover:flex-[2]
+"
+                  >
+                    <img
+                      src={project.img}
+                      alt={project.title}
+                      className={`
+  group/card relative h-[480px] overflow-hidden rounded-[2rem]
+  border border-white/10 bg-white/[0.03]
+  transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+  ${index === 3 ? "md:hover:scale-[1.03]" : "md:hover:col-span-2"}
+`}
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent" />
+
+                    <div className="absolute inset-0 flex flex-col justify-between p-7">
+                      <p className="text-[10px] uppercase tracking-[0.45em] text-white/40">
+                        0{index + 1}
+                      </p>
+
+                      <div>
+                        <h3 className="text-3xl font-light tracking-[-0.05em] md:text-4xl">
+                          {project.title}
+                        </h3>
+
+                        <div
+                          className="
+                    mt-0 max-h-0 overflow-hidden opacity-0
+                    transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+                    group-hover/card:mt-5 group-hover/card:max-h-48 group-hover/card:opacity-100
+                  "
+                        >
+                          <p className="max-w-md text-sm leading-6 text-white/65">
+                            {project.desc}
+                          </p>
+
+                          <button className="mt-6  px-5 py-2 text-[10px] uppercase tracking-[0.3em] text-white/70 transition hover:bg-white hover:text-black">
+                            Learn More
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
 
           {/* 5. VERTICAL DATE RAIL*/}
-          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[10000] hidden md:flex flex-col items-center gap-6">
+          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-10000 hidden md:flex flex-col items-center gap-6">
             {/* vertical line */}
             <div className="h-40 w-px bg-white/20" />
 
             {/* vertical date */}
             <p
-              className="text-[11px] tracking-[0.45em] text-[#c99102]/70 uppercase"
+              className="font-bold text-[11px] tracking-[0.45em]  text-[blue]/90 uppercase"
               style={{
                 writingMode: "vertical-rl",
                 textOrientation: "mixed",
               }}
             >
-              {new Date().toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </p>
-
-            {/* scroll text */}
-            <p
-              className="text-[10px] tracking-[0.4em] text-white/25 uppercase animate-pulse"
-              style={{
-                writingMode: "vertical-rl",
-              }}
-            >
-              Scroll
+              Beau Hyun Lee
             </p>
 
             {/* bottom line */}
             <div className="h-40 w-px bg-white/20" />
           </div>
         </section>
-
         <footer
           id="contact"
           className="relative overflow-hidden bg-black px-6 py-24 md:px-14"
@@ -447,7 +445,6 @@ export default function StudioAudreyPortfolio() {
             </div>
           </div>
         </footer>
-
         {/* style block */}
         <style>{`
 
@@ -560,53 +557,6 @@ Gloal Font
   }
 
   /* =========================
-     GRAIN / LANDING OVERLAY
-  ========================= */
-          /* glow container */
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* existing light */
-.hero-glow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(circle at center,
-      rgba(120, 0, 0, 0.45) 0%,
-      rgba(120, 0, 0, 0.18) 30%,
-      transparent 70%);
-
-  filter: blur(80px);
-}
-
-/* grain overlay */
-.hero-glow::after {
-  content: "";
-  position: absolute;
-  inset: -50%;
-
-  opacity: 0.12;
-  mix-blend-mode: soft-light;
-
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-
-  animation: grainMove 8s steps(10) infinite;
-}
-
-@keyframes grainMove {
-  0%   { transform: translate(0,0); }
-  25%  { transform: translate(-5%, 3%); }
-  50%  { transform: translate(4%, -4%); }
-  75%  { transform: translate(-3%, 5%); }
-  100% { transform: translate(0,0); }
-}
-  
-  /* =========================
      NAME FLIP ANIMATION
   ========================= */
 
@@ -644,117 +594,15 @@ Gloal Font
       filter: blur(0);
     }
   }
-/* =========================
-   INTRO TYPEWRITER
-========================= */
 
-.typing-text {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 6ch;
-  animation: typingHello 1.8s steps(6, end) both;
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+.bebas-neue-regular {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-.typing-text::after {
-  content: "";
-  position: absolute;
-  right: -14px;
-  top: 50%;
-  width: 2px;
-  height: 1em;
-  background: rgba(255,255,255,0.8);
-  transform: translateY(-50%);
-  animation:
-    blinkCursor 0.8s 6,
-    cursorToArrow 1.2s ease 4.8s both;
-}
-
-.typing-sub {
-  overflow: hidden;
-  white-space: nowrap;
-  opacity: 1;
-  width: 25ch;
-  animation:
-    showSub 0s linear 1.9s both,
-    typingSub 2.4s steps(25, end) 1.9s both;
-}
-
-
-@keyframes typingHello {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 10ch;
-  }
-}
-
-@keyframes typingSub {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 60ch;
-  }
-}
-
-@keyframes showSub {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes blinkCursor {
-  0%, 50% {
-    opacity: 1;
-  }
-
-  51%, 100% {
-    opacity: 0;
-  }
-}
-
-@keyframes cursorToArrow {
-  0% {
-    top: 50%;
-    height: 1em;
-    width: 2px;
-    background: rgba(255,255,255,0.8);
-    transform: translateY(-50%);
-    box-shadow: none;
-  }
-
-  100% {
-    top: 160%;
-    height: 90px;
-    width: 3px;
-    background: linear-gradient(
-      180deg,
-      transparent,
-      rgba(150,0,0,0.95),
-      rgba(255,170,120,0.85),
-      rgba(90,0,0,0.95)
-    );
-    transform: translateY(0);
-    box-shadow:
-      0 0 12px rgba(150,0,0,0.8),
-      inset 0 0 4px rgba(255,255,255,0.35);
-  }
-}
-
-@keyframes showArrowHead {
-  to {
-    opacity: 1;
-  }
-}
 
   /* =========================
      FOOTER NAVIGATION
@@ -820,6 +668,7 @@ Gloal Font
       transform: translateX(-50%) rotate(-6deg);
     }
   }
+    
 `}</style>
       </motion.main>
     );
